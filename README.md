@@ -1,2 +1,2 @@
-# myjava
-this is a own  java studying
+# myoracle
+this is a own oracle sqls
