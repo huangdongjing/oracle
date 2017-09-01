@@ -1,4 +1,4 @@
--- oa sql 使用大全
+-- oa sql 查询记录
 --需求 法政部出台流程不能超过24小时规定,需要oa导出
 -- 供货商提供的原始查询
 select r.request_desc,r.folder_id,r.create_user_id,r.create_date from newsoft.ecl_request_sheet r where r.container_type=4
