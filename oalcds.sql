@@ -1,9 +1,9 @@
--- oa sql ²éÑ¯¼ÇÂ¼
+-- oa sql Ê¹ÓÃ´óÈ«
 --ĞèÇó ·¨Õş²¿³öÌ¨Á÷³Ì²»ÄÜ³¬¹ı24Ğ¡Ê±¹æ¶¨,ĞèÒªoaµ¼³ö
 -- ¹©»õÉÌÌá¹©µÄÔ­Ê¼²éÑ¯
 select r.request_desc,r.folder_id,r.create_user_id,r.create_date from newsoft.ecl_request_sheet r where r.container_type=4
 /*
-request_desc(Á÷³ÌÃû³Æ£©£¬folder_id£¨Á÷³Ì×´Ì¬£¬0ÊÇ½øĞĞÖĞ£¬1ÊÇÒÑÍê³É£¬ÆäËûµÄ²»ÊÇÒÑÈ¡Ïû¾ÍÊÇÎ´²Ù×÷£¬¿ÉÒÔ¹éÎªÍ¬Ò»Àà£©£¬create_user_id£¨·¢ÆğÈË£©£¬create_date£¨·¢ÆğÊ±¼ä£©
+request_desc(Á÷³ÌÃû³Æ£©£¬folder_id£¨Á÷³Ì×´Ì¬£¬1ÊÇ½øĞĞÖĞ£¬0ÊÇÒÑÍê³É£¬ÆäËûµÄ²»ÊÇÒÑÈ¡Ïû¾ÍÊÇÎ´²Ù×÷£¬¿ÉÒÔ¹éÎªÍ¬Ò»Àà£©£¬create_user_id£¨·¢ÆğÈË£©£¬create_date£¨·¢ÆğÊ±¼ä£©
 */
 -- ¸ÄÔì²éÑ¯
 select r.request_desc ·¢ÆğÁ÷³ÌÃû³Æ,
@@ -14,7 +14,7 @@ ub.MI ·¢ÆğÈËĞÕÃû
 from newsoft.ecl_request_sheet r
 LEFT OUTER JOIN USER_TABLE ub
    ON ub.user_id = r.create_user_id
-where r.container_type=4 and r.folder_id <>1; --ÕâĞĞµÄÒâË¼Ê±Ñ¡ÔñÀàĞÍÎªÁ÷³Ì ÔËĞĞ×´Ì¬²»ÎªÍê³ÉµÄÁ÷³Ì
+where r.container_type=4 and r.folder_id =1; --ÕâĞĞµÄÒâË¼Ê±Ñ¡ÔñÀàĞÍÎªÁ÷³Ì ÔËĞĞ×´Ì¬²»ÎªÍê³ÉµÄÁ÷³Ì
 
 
 --¸ÄÔì²éÑ¯1
@@ -29,7 +29,7 @@ LEFT OUTER JOIN USER_TABLE ub--Á¬½ÓÓÃ»§±í
 ON ub.user_id = r.create_user_id--Í¨¹ıÓÃ»§idÁ¬½Ó
 LEFT OUTER JOIN ECL_TASKS et--Á¬½ÓÁ÷³Ì±í
 ON et.request_id=r.request_id--Í¨¹ıÁ÷Ë®ºÅÁ¬½Ó
-where r.container_type=4 and r.folder_id <>1 and to_number(to_char(£¨sysdate-r.create_date£©*12,'fm9999990.9'))>= 24 --ÕâĞĞµÄÒâË¼Ñ¡ÔñÀàĞÍÎªÁ÷³Ì ÔËĞĞ×´Ì¬Îª²»ÎªÍê³É,²¢ÇÒÊ±³¤´óÓÚ24Ğ¡Ê±µÄÁ÷³Ì
+where r.container_type=4 and r.folder_id =1 and to_number(to_char(£¨sysdate-r.create_date£©*12,'fm9999990.9'))>= 24 --ÕâĞĞµÄÒâË¼Ñ¡ÔñÀàĞÍÎªÁ÷³Ì ÔËĞĞ×´Ì¬Îª²»ÎªÍê³É,²¢ÇÒÊ±³¤´óÓÚ24Ğ¡Ê±µÄÁ÷³Ì
 order by sysdate-r.create_date;--°´ÕÕ´´½¨ÈÕÆÚÅÅĞò
 
 --oa¹©»õÉÌÌá¹©µÄ×î³õ²éÑ¯ Í¨¹ıcase then Ñ¡Ôñ1ºÍ3 2ÖÖ×´Ì¬µÄÁ÷³Ì
@@ -57,7 +57,9 @@ AND user_table.mi not in ('¹ı½õÌÎ','Äª×Ï·ã','ÁÎÎÄ»ª','ÕÂÁÁ','ËïÁõÌÎ','±«³Ì³É','Ë
 order by user_table.mi
 
 -- ĞèÇó  ²éÑ¯ÀëÖ°ÈËÔ±µÄ»ù±¾²Ù×÷
-select *  from USER_TABLE  where MI ='ÊµÏ°Éú'--ÏÈ²é³öÓÃ»§±íÀïµÄĞÅÏ¢
+select * from USER_TABLE  where MI like'%ÖìÇì%'--ÓÃĞÕÃû²é³öÓÃ»§±íÀïµÄĞÅÏ¢
+select * from USER_TABLE  where USER_ID ='u000270'--ÓÃ¹¤ºÅ²é³öÓÃ»§±íÀïµÄĞÅÏ¢
+select * from DEPARTMENTS  where DEPT_ID ='10540'--ÓÃ²¿ÃÅID²é³ö²¿ÃÅĞÅÏ¢
 --ÒÔ²Ù×÷½ö½öÓÃÓÚÇ°Ì¨ÎŞ·¨¸üĞÂÀëÖ°ÈËÔ±µÄ×´Ì¬ ±ÈÈç²¿ÃÅÏûÊ§ÎŞ·¨Ê¹ÀëÖ°ÈËÔ±ÉúĞ§ÔÚÖ°
  update USER_TABLE
  set DEPT_ID = '12916',MI='ÊµÏ°Éú',LAST_NAME='Êµ',FIRST_NAME='Ï°Éú'--¸Ä²¿ÃÅidÊÇÎªÁËÒò¶ÔÔ­ÏÈ²¿ÃÅ±»³·Ïú,¸ÄÓÃ»§ÃûÊÇÎªÁË·½±ã²éÑ¯Á÷³Ì
@@ -86,19 +88,19 @@ LEFT OUTER JOIN ECL_TASKS et
 ON et.request_id=r.request_id
 where r.container_type=4 and r.create_user_id = 'u000222'
 order by sysdate-r.create_date
-
+sel
 --ÕâÊÇÄ¿Ç°×îĞÂµÄ³¬Ê±Á÷³Ì²éÑ¯
 select case ecl_tasks.status_id
 when 1 then '´ı°ì' 
 when 3 then '´¦ÀíÖĞ'
-end  Á÷³Ì×´Ì¬ , 
+end  Á÷³Ì×´Ì¬, 
       ecl_request_sheet.request_desc Á÷³ÌÃû³Æ, 
       ecl_request_sheet.str_att_1 Á÷³ÌÁ÷Ë®ºÅ, 
       to_char(ecl_tasks.create_date, 'yyyy-mm-dd') ÉóÅúÆğµã, 
       to_char(sysdate,'YYYY-MM-DD')as µ±Ç°ÈÕÆÚ, 
       trunc(sysdate-ecl_tasks.create_date) Á÷³ÌºÄÊ±, 
       ecl_request_sheet.create_user_id Á÷³Ì·¢ÆğÈË, 
-      ecl_tasks.assignee_name ÉóÅúÈË , 
+      ecl_tasks.assignee_name ÉóÅúÈË, 
       user_table.user_id ÉóÅúÈËID, 
       user_table.mi ÉóÅúÈËĞÕÃû 
 from ecl_request_sheet  
@@ -110,5 +112,33 @@ AND user_table.mi not in ('¹ı½õÌÎ','Äª×Ï·ã','ÁÎÎÄ»ª','ÕÂÁÁ','ËïÁõÌÎ','±«³Ì³É','Ë
 and ecl_tasks.create_date between '1-8ÔÂ-17' and sysdate--¶¨Òå8ÔÂ1ÈÕ-ÖÁ½ñ
 and to_char(trunc(sysdate-ecl_tasks.create_date))<>0--ÉóÅúÊ±¼ä²»Îª0µÄ
 order by user_table.mi;
-
+/*
+ĞèÇó ²éÑ¯ÀëÖ°ÈË·¢ÆğµÄÁ÷³Ì,Í¨¹ıÄ³Î»¾­°ìÈËµÄĞÎÊ½
+Ë¼Â·:ÏÈÓÃ¼òµ¥²éÑ¯²éÑ¯ ÔÚÊ¹ÓÃÁ¬±íÍêÉÆĞÅÏ¢
+select REQUEST_ID,REQUEST_DESC,START_DATE,DUE_DATE,CREATE_DATE,CREATE_USER_ID,ASSIGNEE_ID1,ASSIGNEE_ID2 
+from ECL_REQUEST_SHEET where CREATE_USER_ID ='u000560';
+select sysdate from dual;²éÑ¯µ±È»Ê±¼ä,»ñµÃÏµÍ³µÄÄ¬ÈÏ¸ñÊ½
+*/
+select case ecl_tasks.status_id
+--Ñ¡ÔñÁ÷³Ì×´Ì¬
+when 1 then '´ı°ì' 
+when 3 then '´¦ÀíÖĞ'
+when 0 then 'ÒÑÍê³É'
+else '×´Ì¬²»Ã÷'
+end  Á÷³Ì×´Ì¬, 
+      ecl_request_sheet.request_id Á÷³ÌºÅ, 
+      ecl_request_sheet.request_desc Á÷³ÌÃû³Æ, 
+      ecl_request_sheet.str_att_1 Á÷³ÌÁ÷Ë®ºÅ, 
+      to_char( ecl_request_sheet.create_date, 'yyyy-mm-dd') ´´½¨Ê±¼ä, 
+      to_char(ecl_tasks.create_date, 'yyyy-mm-dd') ÉóÅúÆğµã, 
+      ecl_request_sheet.create_user_id Á÷³Ì·¢ÆğÈË, 
+      ecl_tasks.assignee_name ÉóÅúÈË, 
+      user_table.user_id ÉóÅúÈËID, 
+      user_table.mi ÉóÅúÈËĞÕÃû 
+from ecl_request_sheet --´ÓÁ÷³Ì²éÑ¯±íÖĞ²éÑ¯
+inner join ecl_tasks on ecl_tasks.request_id=ecl_request_sheet.request_id--Í¨¹ıÁ÷³ÌºÅÈ¥Á¬½ÓÈÎÎñÁ÷³Ì±íºÍÈÎÎñ²éÑ¯±í
+inner join user_table on ecl_tasks.assignee = user_table.myws_id --Í¨¹ıÉóÅúÈËidºÍÈËÔ±ĞÅÏ¢±íÁ¬½Ó
+where  ecl_request_sheet.create_user_id ='u000560'and  ecl_request_sheet.create_date between '01-1ÔÂ-15'and'31-12ÔÂ-15'--Ñ¡Ôñ´´½¨ÕßºÍÊ±¼ä¶Î
+order by ecl_tasks.create_date;--Ä¬ÈÏ´´½¨ÈÕÆÚÅÅĞò
+    
 
